@@ -1,3 +1,18 @@
+## 📑 Sumário
+
+- [Setup do Ambiente — Banco de Dados com Java](#-setup-do-ambiente--aulas-de-banco-de-dados-com-java)
+  - [Instalar o Java 21](#-1️⃣-instalar-o-java-21)
+  - [Instalar o Eclipse IDE](#-2️⃣-instalar-o-eclipse-ide)
+  - [Instalar o PostgreSQL](#-3️⃣-instalar-o-postgresql)
+  - [Instalar o DBeaver](#-4️⃣-instalar-o-dbeaver)
+  - [Configurar Conexão no DBeaver](#-5️⃣-configurar-conexão-no-dbeaver)
+  - [Testar o PostgreSQL](#-6️⃣-testar-o-postgresql)
+  - [JDBC no Eclipse](#-7️⃣-jdbc-no-eclipse-importante-para-as-próximas-aulas)
+  - [Ambiente pronto](#-ambiente-pronto)
+  - [Problemas comuns](#-❓-problemas-comuns)
+
+
+
 # 🛠️ Setup do Ambiente — Aulas de Banco de Dados com Java
 
 Este guia orienta a configuração do ambiente necessário para as nossas aulas iniciais.  
