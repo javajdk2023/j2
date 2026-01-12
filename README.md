@@ -1,16 +1,26 @@
 ## 📑 Sumário
 
-- [Setup do Ambiente — Banco de Dados com Java](#-setup-do-ambiente--aulas-de-banco-de-dados-com-java)
-  - [Instalar o Java 21](#-1️⃣-instalar-o-java-21)
-  - [Instalar o Eclipse IDE](#-2️⃣-instalar-o-eclipse-ide)
-  - [Instalar o PostgreSQL](#-3️⃣-instalar-o-postgresql)
-  - [Instalar o DBeaver](#-4️⃣-instalar-o-dbeaver)
-  - [Configurar Conexão no DBeaver](#-5️⃣-configurar-conexão-no-dbeaver)
-  - [Testar o PostgreSQL](#-6️⃣-testar-o-postgresql)
-  - [JDBC no Eclipse](#-7️⃣-jdbc-no-eclipse-importante-para-as-próximas-aulas)
-  - [Ambiente pronto](#-ambiente-pronto)
-  - [Problemas comuns](#-❓-problemas-comuns)
+- [🛠️ Setup do Ambiente — Aulas de Banco de Dados com Java](#️-setup-do-ambiente--aulas-de-banco-de-dados-com-java)
+  - [✅ 1️⃣ Instalar o Java 21](#️-1️⃣-instalar-o-java-21)
+  - [✅ 2️⃣ Instalar o Eclipse IDE](#️-2️⃣-instalar-o-eclipse-ide)
+  - [✅ 3️⃣ Instalar o PostgreSQL](#️-3️⃣-instalar-o-postgresql)
+  - [✅ 4️⃣ Instalar o DBeaver](#️-4️⃣-instalar-o-dbeaver)
+  - [🔌 5️⃣ Configurar Conexão no DBeaver](#-5️⃣-configurar-conexão-no-dbeaver)
+  - [🧪 6️⃣ Testar o PostgreSQL](#-6️⃣-testar-o-postgresql)
+  - [☕ 7️⃣ JDBC no Eclipse](#-7️⃣-jdbc-no-eclipse-importante-para-as-próximas-aulas)
+  - [🎯 Ambiente pronto!](#-ambiente-pronto)
+  - [❓ Problemas comuns](#-problemas-comuns)
+  - [👍 Pronto para começar!](#-pronto-para-começar)
 
+- [📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)](#-projeto--sistema-de-gerenciamento-de-biblioteca-console--jdbc)
+  - [🎯 Objetivo Geral](#-objetivo-geral)
+  - [🧱 Arquitetura do Projeto](#-arquitetura-do-projeto)
+    - [🖥 Camada de Aplicação (app)](#-camada-de-aplicação-app)
+    - [🧠 Camada de Serviços (service)](#-camada-de-serviços-service)
+    - [💾 Camada de Persistência (dao)](#-camada-de-persistência-dao)
+    - [🗄 Camada de Conexão (db)](#-camada-de-conexão-db)
+  - [🗺 Diagrama da Estrutura do Projeto](#-diagrama-da-estrutura-do-projeto)
+  - [📦 Dependências do Projeto](#-dependências-do-projeto)
 
 
 # 🛠️ Setup do Ambiente — Aulas de Banco de Dados com Java
@@ -174,3 +184,175 @@ Nas próximas aulas vamos:
 ## 👍 Pronto para começar!
 
 Qualquer dúvida, traga para aula 😊
+
+
+
+# 📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)
+
+Este projeto será desenvolvido ao longo das aulas para simular um sistema de gerenciamento de biblioteca.
+Nosso objetivo é trabalhar conceitos de **arquitetura em camadas**, **JDBC**, **DAO**, **boas práticas de separação de responsabilidades** e acesso a banco de dados.
+
+---
+
+## 🎯 Objetivo Geral
+
+Criar uma aplicação console em Java que permita:
+
+- Gerenciar livros
+- Gerenciar usuários
+- Controlar empréstimos
+- Persistir tudo em um banco PostgreSQL via JDBC
+
+---
+
+## 🧱 Arquitetura do Projeto
+
+Adotaremos uma arquitetura organizada em camadas:
+
+### 🖥 Camada de Aplicação (`app`)
+Responsável por iniciar o sistema e controlar o fluxo via menu:
+- `Application` → contém o `main`
+- `ConsoleMenu` → interação com o usuário via terminal
+
+---
+
+### 🧠 Camada de Serviços (`service`)
+Contém as regras de negócio do sistema:
+
+- `LivroService`
+- `UsuarioService`
+- `EmprestimoService`
+
+Nenhum serviço acessa banco diretamente — isso é função do DAO.
+
+---
+
+### 💾 Camada de Persistência (`dao`)
+Responsável por conversar com o banco de dados usando JDBC:
+
+- `LivroDAO`
+- `UsuarioDAO`
+- `EmprestimoDAO`
+
+Cada DAO contém operações como salvar, listar, buscar etc.
+
+---
+
+### 🗄 Camada de Conexão (`db`)
+Centraliza a criação da conexão com o banco:
+
+- `DBConnection`
+
+---
+
+## 🗺 Diagrama da Estrutura do Projeto
+
+O diagrama abaixo representa visualmente a organização do sistema:
+
+```mermaid
+classDiagram
+direction LR
+
+namespace app {
+    class Application {
+        +main(String[] args)
+        +run()
+    }
+
+    class ConsoleMenu {
+        +exibirMenu()
+        +lerOpcao()
+        +executarOpcao()
+    }
+}
+
+namespace service {
+    class LivroService {
+        +cadastrarLivro()
+        +listarLivros()
+        +buscarPorId()
+        +removerLivro()
+    }
+
+    class UsuarioService {
+        +registrarUsuario()
+        +listarUsuarios()
+    }
+
+    class EmprestimoService {
+        +realizarEmprestimo()
+        +devolverLivro()
+        +listarEmprestimos()
+    }
+}
+
+namespace dao {
+    class LivroDAO {
+        +save()
+        +findAll()
+        +findById()
+        +delete()
+    }
+
+    class UsuarioDAO {
+        +save()
+        +findAll()
+        +findById()
+    }
+
+    class EmprestimoDAO {
+        +save()
+        +findAll()
+        +findActiveByUser()
+    }
+}
+
+namespace db {
+    class DBConnection {
+        +getConnection() Connection
+    }
+}
+
+%% --- RELAÇÕES ---
+Application --> ConsoleMenu
+
+ConsoleMenu --> LivroService
+ConsoleMenu --> UsuarioService
+ConsoleMenu --> EmprestimoService
+
+LivroService --> LivroDAO
+UsuarioService --> UsuarioDAO
+EmprestimoService --> EmprestimoDAO
+
+LivroDAO --> DBConnection
+UsuarioDAO --> DBConnection
+EmprestimoDAO --> DBConnection
+```
+
+## 📦 Dependências do Projeto
+
+O projeto utilizará **Maven** para gerenciamento de dependências.  
+Certifique-se de que o arquivo `pom.xml` contenha as seguintes bibliotecas:
+
+### 🗄️ Driver JDBC do PostgreSQL
+Responsável por permitir a comunicação entre o Java e o banco PostgreSQL.
+
+```xml
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.7.3</version>
+</dependency>
+```
+
+### ⌨️ JLine – Interface de Console
+
+Usaremos o JLine para criar menus mais amigáveis e melhorar a interação via terminal.
+
+```xml
+<dependency>
+    <groupId>org.jline</groupId>
+    <artifactId>jline</artifactId>
+    <version>3.26.0</version>
+</dependency>
+```
