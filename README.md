@@ -251,83 +251,107 @@ O diagrama abaixo representa visualmente a organização do sistema:
 
 ```mermaid
 classDiagram
-direction LR
 
-namespace app {
-    class Application {
-        +main(String[] args)
-        +run()
+%% =======================
+%% APPLICATION
+%% =======================
+namespace application {
+    class Application
+}
+
+%% =======================
+%% CONSOLE
+%% =======================
+namespace console {
+    class ConsoleUI
+    class MenuPrincipal
+}
+
+%% =======================
+%% DOMAIN
+%% =======================
+namespace domain {
+    class Livro {
+        - Long id
+        - String titulo
+        - String autor
+        - boolean disponivel
     }
 
-    class ConsoleMenu {
-        +exibirMenu()
-        +lerOpcao()
-        +executarOpcao()
+    class Usuario {
+        - Long id
+        - String nome
+    }
+
+    class Emprestimo {
+        - Long id
+        - LocalDate dataEmprestimo
+        - LocalDate dataDevolucao
     }
 }
 
+%% =======================
+%% SERVICE
+%% =======================
 namespace service {
-    class LivroService {
-        +cadastrarLivro()
-        +listarLivros()
-        +buscarPorId()
-        +removerLivro()
-    }
-
-    class UsuarioService {
-        +registrarUsuario()
-        +listarUsuarios()
-    }
-
-    class EmprestimoService {
-        +realizarEmprestimo()
-        +devolverLivro()
-        +listarEmprestimos()
-    }
+    class LivroService
+    class UsuarioService
+    class EmprestimoService
 }
 
+%% =======================
+%% DAO
+%% =======================
 namespace dao {
-    class LivroDAO {
-        +save()
-        +findAll()
-        +findById()
-        +delete()
-    }
-
-    class UsuarioDAO {
-        +save()
-        +findAll()
-        +findById()
-    }
-
-    class EmprestimoDAO {
-        +save()
-        +findAll()
-        +findActiveByUser()
-    }
+    class LivroDAO
+    class UsuarioDAO
+    class EmprestimoDAO
 }
 
-namespace db {
-    class DBConnection {
-        +getConnection() Connection
-    }
+%% =======================
+%% INFRASTRUCTURE / DB
+%% =======================
+namespace infrastructure {
+    class DatabaseConfig
+    class ConnectionFactory
 }
 
-%% --- RELAÇÕES ---
-Application --> ConsoleMenu
+%% =======================
+%% RELACIONAMENTOS
+%% =======================
+Application --> ConsoleUI
+ConsoleUI --> MenuPrincipal
 
-ConsoleMenu --> LivroService
-ConsoleMenu --> UsuarioService
-ConsoleMenu --> EmprestimoService
+MenuPrincipal --> LivroService
+MenuPrincipal --> UsuarioService
+MenuPrincipal --> EmprestimoService
 
 LivroService --> LivroDAO
 UsuarioService --> UsuarioDAO
 EmprestimoService --> EmprestimoDAO
 
-LivroDAO --> DBConnection
-UsuarioDAO --> DBConnection
-EmprestimoDAO --> DBConnection
+LivroDAO --> Livro
+UsuarioDAO --> Usuario
+EmprestimoDAO --> Emprestimo
+
+LivroDAO --> ConnectionFactory
+UsuarioDAO --> ConnectionFactory
+EmprestimoDAO --> ConnectionFactory
+
+ConnectionFactory --> DatabaseConfig
+
 ```
+
+---
+- domain = modelo do mundo real
+
+- service = regras de negócio
+
+- dao = persistência / JDBC
+
+- infrastructure = detalhes técnicos (conexão, config)
+
+- console = interface com usuário
 
 ## 📦 Dependências do Projeto
 
