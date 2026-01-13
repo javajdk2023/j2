@@ -205,6 +205,93 @@ Criar uma aplicação console em Java que permita:
 
 ---
 
+## 🧩 Estrutura Conceitual
+
+O projeto foi planejado a partir de dois pilares principais:
+
+### 🔷 1️⃣ Modelo Conceitual – ER (Entidade-Relacionamento)
+
+O sistema contempla as seguintes entidades principais:
+
+- **Livro** – Representa a obra em si (título, descrição, associação com autor e categoria).
+- **Autor** – Armazena informações sobre os autores cadastrados.
+- **Categoria** – Permite organização temática dos livros.
+- **Exemplar** – Representa cada cópia física disponível de um livro.
+- **Usuário** – Representa a pessoa que realiza empréstimos.
+- **Empréstimo** – Controla o processo de retirada e devolução dos exemplares.
+
+Além disso, o modelo prevê funcionalidades como:
+- Associação de livros a autores  
+- Classificação dos livros em categorias  
+- Controle por exemplares, permitindo múltiplas cópias do mesmo livro  
+- Relacionamento entre usuários e empréstimos  
+
+---
+
+### 🧱 Diagrama ER
+
+```mermaid
+erDiagram
+    USUARIO {
+        LONG id
+        STRING nome
+    }
+
+    LIVRO {
+        LONG id
+        STRING titulo
+    }
+
+    EXEMPLAR {
+        LONG id
+        STRING codigoTombo
+        BOOLEAN disponivel
+    }
+
+    AUTOR {
+        LONG id
+        STRING nome
+    }
+
+    CATEGORIA {
+        LONG id
+        STRING nome
+    }
+
+    EMPRESTIMO {
+        LONG id
+        DATE dataEmprestimo
+        DATE dataDevolucao
+    }
+
+    LIVRO_AUTOR {
+        LONG id
+    }
+
+    LIVRO_CATEGORIA {
+        LONG id
+    }
+
+    %% ================= RELACIONAMENTOS =================
+
+    %% Usuário realiza empréstimos
+    USUARIO ||--o{ EMPRESTIMO : realiza
+
+    %% Empréstimo feito sobre EXEMPLAR (não mais diretamente no livro)
+    EXEMPLAR ||--o{ EMPRESTIMO : emprestado
+
+    %% Livro possui vários exemplares
+    LIVRO ||--o{ EXEMPLAR : possui
+
+    %% Livro x Autor (N:N)
+    LIVRO ||--o{ LIVRO_AUTOR : contem
+    AUTOR ||--o{ LIVRO_AUTOR : escreve
+
+    %% Livro x Categoria (N:N)
+    LIVRO ||--o{ LIVRO_CATEGORIA : classifica
+    CATEGORIA ||--o{ LIVRO_CATEGORIA : pertence
+```
+
 ## 🧱 Arquitetura do Projeto
 
 Adotaremos uma arquitetura organizada em camadas:
@@ -222,6 +309,9 @@ Contém as regras de negócio do sistema:
 - `LivroService`
 - `UsuarioService`
 - `EmprestimoService`
+- `AutorService`
+- `CategoriaService`
+- `ExemplarService`
 
 Nenhum serviço acessa banco diretamente — isso é função do DAO.
 
@@ -233,6 +323,9 @@ Responsável por conversar com o banco de dados usando JDBC:
 - `LivroDAO`
 - `UsuarioDAO`
 - `EmprestimoDAO`
+- `AutorDAO`
+- `CategoriaDAO`
+- `ExemplarDAO`
 
 Cada DAO contém operações como salvar, listar, buscar etc.
 
@@ -275,8 +368,6 @@ namespace domain {
     class Livro {
         - Long id
         - String titulo
-        - String autor
-        - boolean disponivel
     }
 
     class Usuario {
@@ -289,6 +380,22 @@ namespace domain {
         - LocalDate dataEmprestimo
         - LocalDate dataDevolucao
     }
+
+    class Exemplar {
+        - Long id
+        - String codigoTombo
+        - boolean disponivel
+    }
+
+    class Autor {
+        - Long id
+        - String nome
+    }
+
+    class Categoria {
+        - Long id
+        - String nome
+    }
 }
 
 %% =======================
@@ -298,6 +405,9 @@ namespace service {
     class LivroService
     class UsuarioService
     class EmprestimoService
+    class AutorService
+    class CategoriaService
+    class ExemplarService
 }
 
 %% =======================
@@ -307,6 +417,9 @@ namespace dao {
     class LivroDAO
     class UsuarioDAO
     class EmprestimoDAO
+    class AutorDAO
+    class CategoriaDAO
+    class ExemplarDAO
 }
 
 %% =======================
@@ -318,7 +431,7 @@ namespace infrastructure {
 }
 
 %% =======================
-%% RELACIONAMENTOS
+%% RELACIONAMENTOS DE CAMADAS
 %% =======================
 Application --> ConsoleUI
 ConsoleUI --> MenuPrincipal
@@ -326,21 +439,42 @@ ConsoleUI --> MenuPrincipal
 MenuPrincipal --> LivroService
 MenuPrincipal --> UsuarioService
 MenuPrincipal --> EmprestimoService
+MenuPrincipal --> AutorService
+MenuPrincipal --> CategoriaService
+MenuPrincipal --> ExemplarService
 
 LivroService --> LivroDAO
 UsuarioService --> UsuarioDAO
 EmprestimoService --> EmprestimoDAO
+AutorService --> AutorDAO
+CategoriaService --> CategoriaDAO
+ExemplarService --> ExemplarDAO
 
 LivroDAO --> Livro
 UsuarioDAO --> Usuario
 EmprestimoDAO --> Emprestimo
+AutorDAO --> Autor
+CategoriaDAO --> Categoria
+ExemplarDAO --> Exemplar
 
 LivroDAO --> ConnectionFactory
 UsuarioDAO --> ConnectionFactory
 EmprestimoDAO --> ConnectionFactory
+AutorDAO --> ConnectionFactory
+CategoriaDAO --> ConnectionFactory
+ExemplarDAO --> ConnectionFactory
 
 ConnectionFactory --> DatabaseConfig
 
+%% =======================
+%% RELACIONAMENTOS DE DOMÍNIO
+%% =======================
+Livro "1" --> "many" Exemplar : possui
+Livro "many" --> "many" Autor : escrito por
+Livro "many" --> "many" Categoria : classificado em
+
+Usuario "1" --> "many" Emprestimo : realiza
+Exemplar "1" --> "many" Emprestimo : emprestado
 ```
 
 ---
