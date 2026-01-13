@@ -238,10 +238,11 @@ Cada DAO contém operações como salvar, listar, buscar etc.
 
 ---
 
-### 🗄 Camada de Conexão (`db`)
+### 🗄 Camada de Infra (`db`)
 Centraliza a criação da conexão com o banco:
 
-- `DBConnection`
+- `ConnectionFactory`
+- `DatabaseConfig`
 
 ---
 
