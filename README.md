@@ -21,6 +21,7 @@
     - [🗄 Camada de Conexão (db)](#-camada-de-conexão-db)
   - [🗺 Diagrama da Estrutura do Projeto](#-diagrama-da-estrutura-do-projeto)
   - [📦 Dependências do Projeto](#-dependências-do-projeto)
+- [🧩 API JDBC — Principais Interfaces e Classes](#-api-jdbc--principais-interfaces-e-classes)
 
 
 # 🛠️ Setup do Ambiente — Aulas de Banco de Dados com Java
@@ -515,7 +516,7 @@ Usaremos o JLine para criar menus mais amigáveis e melhorar a interação via t
     <version>3.26.0</version>
 </dependency>
 ```
-
+---
 
 ### Snippet
 
@@ -605,4 +606,121 @@ public class MenuPrincipal {
 		} while (!opcao.equals("0"));
 	}
 }
-``
+```
+
+## 🧩 API JDBC — Principais Interfaces e Classes
+
+A API JDBC é composta por um conjunto de **interfaces e classes fundamentais** que permitem a comunicação entre aplicações Java e bancos de dados relacionais.
+
+Cada elemento da API possui um papel bem definido dentro do fluxo de acesso a dados.
+
+---
+
+## 🚦 `DriverManager`
+
+O `DriverManager` é o **ponto central de gerenciamento dos drivers JDBC**.
+
+### Funções principais:
+- Localizar o driver JDBC apropriado
+- Estabelecer conexões com o banco de dados
+- Gerenciar múltiplos drivers registrados na JVM
+
+📌 Normalmente, o driver é carregado automaticamente quando a dependência é adicionada ao projeto.
+
+### Uso conceitual:
+> “O `DriverManager` sabe qual driver usar com base na URL JDBC.”
+
+---
+
+## 🔗 `Connection`
+
+A interface `Connection` representa uma **conexão ativa com o banco de dados**.
+
+### Responsabilidades:
+- Criar objetos `Statement` e `PreparedStatement`
+- Controlar transações (`commit`, `rollback`)
+- Definir modo de auto-commit
+- Encerrar a comunicação com o banco
+
+📌 Cada instância de `Connection` corresponde a uma sessão aberta no banco.
+
+⚠️ Conexões devem ser sempre fechadas após o uso.
+
+---
+
+## 📝 `Statement`
+
+O `Statement` é usado para executar comandos SQL **estáticos**, sem parâmetros.
+
+### Características:
+- Executa SQL diretamente
+- Indicado apenas para testes ou comandos simples
+- Não protege contra SQL Injection
+
+📌 Seu uso é **desencorajado em sistemas reais**.
+
+---
+
+## 🔐 `PreparedStatement`
+
+O `PreparedStatement` é uma versão mais segura e eficiente do `Statement`.
+
+### Vantagens:
+- Suporte a parâmetros
+- Prevenção contra SQL Injection
+- Melhor desempenho
+- Reutilização de comandos
+
+📌 É o tipo de comando **recomendado** para praticamente todos os casos.
+
+Conceito importante:
+> “O SQL é compilado uma vez, os dados são fornecidos separadamente.”
+
+---
+
+## 📊 `ResultSet`
+
+O `ResultSet` representa o **conjunto de dados retornado por uma consulta SQL**.
+
+### Características:
+- Navegação linha a linha
+- Acesso aos dados por nome ou índice da coluna
+- Conversão automática de tipos SQL para Java
+
+📌 O `ResultSet` funciona como um **cursor** sobre os dados.
+
+---
+
+## 🧾 `SQLException`
+
+A classe `SQLException` representa **erros relacionados ao banco de dados**.
+
+### Pode indicar:
+- Erros de conexão
+- Problemas de sintaxe SQL
+- Violação de integridade
+- Falhas de transação
+
+📌 Sempre deve ser tratada ou propagada adequadamente.
+
+---
+
+## 🔄 Fluxo conceitual da API JDBC
+
+1. `DriverManager` localiza o driver
+2. Uma `Connection` é criada
+3. Um `PreparedStatement` é preparado
+4. O SQL é executado
+5. O resultado é lido via `ResultSet`
+6. Recursos são fechados
+
+---
+
+## 📚 Conclusão
+
+A API JDBC oferece:
+- Controle total sobre o acesso a dados
+- Uma base sólida para compreender frameworks ORM
+- Clareza sobre execução de SQL e transações
+
+> “Entender a API JDBC é entender o coração do acesso a dados em Java.”
