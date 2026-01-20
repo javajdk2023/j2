@@ -689,6 +689,45 @@ O `ResultSet` representa o **conjunto de dados retornado por uma consulta SQL**.
 
 📌 O `ResultSet` funciona como um **cursor** sobre os dados.
 
+
+## 📊 ResultSet — Conceitos, Funcionamento e Boas Práticas
+
+O **`ResultSet`** é a interface da API JDBC que representa o **resultado de uma consulta SQL (`SELECT`)**.
+Ele é responsável por disponibilizar, de forma controlada, os dados retornados pelo banco de dados para a aplicação Java.
+
+Diferente de uma lista comum, o `ResultSet` **não carrega os dados como objetos Java prontos**.
+Ele funciona como um **cursor** que percorre os registros retornados pelo banco.
+
+---
+
+## 🧠 Conceito fundamental: Cursor
+
+Quando um `ResultSet` é criado:
+- O cursor começa **antes da primeira linha**
+- Nenhum dado está acessível ainda
+- É obrigatório mover o cursor para acessar os dados
+
+```java
+ResultSet rs = ps.executeQuery();
+// cursor está antes da primeira linha
+```
+
+📌 Somente após chamar next() o cursor aponta para uma linha válida.
+
+---
+
+▶️ Navegação básica
+
+```java
+while (rs.next()) { // leitura dos dados da linha atual } `
+```
+
+- `next()` move o cursor para a próxima linha
+
+- Retorna `false` quando não há mais registros
+
+📌 Esse é o padrão mais comum de uso.
+
 ---
 
 ## 🧾 `SQLException`
