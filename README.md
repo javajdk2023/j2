@@ -516,6 +516,30 @@ Usaremos o JLine para criar menus mais amigáveis e melhorar a interação via t
     <version>3.26.0</version>
 </dependency>
 ```
+
+### ⌨️ Lombok
+
+O **Lombok** é uma **biblioteca Java** que reduz drasticamente a **verbosidade do código**, gerando automaticamente código repetitivo **em tempo de compilação**.
+
+📌 Ele elimina a necessidade de escrever manualmente:
+- Getters e Setters
+- Construtores
+- `toString()`
+- `equals()` e `hashCode()`
+- Builders
+- Logs
+
+Tudo isso é feito por meio de **anotações**.
+
+```xml
+<!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.42</version>
+    <scope>compile</scope>
+</dependency>
+```
 ---
 
 ### Snippet
