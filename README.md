@@ -11,7 +11,7 @@
   - [🎯 Ambiente pronto!](#-ambiente-pronto)
   - [❓ Problemas comuns](#-problemas-comuns)
   - [👍 Pronto para começar!](#-pronto-para-começar)
-
+- [Criando um Projeto Maven no Eclipse](#criando-um-projeto-maven-no-eclipse)
 - [📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)](#-projeto--sistema-de-gerenciamento-de-biblioteca-console--jdbc)
   - [🎯 Objetivo Geral](#-objetivo-geral)
   - [🧱 Arquitetura do Projeto](#-arquitetura-do-projeto)
@@ -167,6 +167,185 @@ Nas próximas aulas vamos:
 - Executar comandos SQL
 - Integrar Java com PostgreSQL
 
+---
+# Criando um Projeto Maven no Eclipse
+
+Este documento apresenta um **passo a passo completo para criar um projeto Maven no Eclipse**, ideal para aulas iniciais de Java e projetos introdutórios.
+
+---
+
+## 🧩 Pré-requisitos
+
+Antes de começar, certifique-se de que você possui:
+
+- **Java (JDK) instalado** (Java 17 ou Java 21)
+- **Eclipse IDE**
+  - Recomendado: *Eclipse IDE for Java Developers*
+- **Maven**
+  - O Eclipse já vem com Maven integrado (plugin *m2e*)
+
+---
+
+## 🚀 Passo a passo: Criando um projeto Maven no Eclipse
+
+### 1️⃣ Abrir o Eclipse
+
+Abra o Eclipse normalmente e selecione um **Workspace**, que é a pasta onde seus projetos ficarão armazenados.
+
+---
+
+### 2️⃣ Criar um novo projeto Maven
+
+1. No menu superior, clique em:
+   ```
+   File → New → Other...
+   ```
+2. Na janela que será exibida:
+   - Expanda a opção **Maven**
+   - Selecione **Maven Project**
+   - Clique em **Next**
+
+---
+
+### 3️⃣ Configurar o projeto Maven
+
+1. Marque a opção:
+   ```
+   Create a simple project (skip archetype selection)
+   ```
+   Essa opção é recomendada para projetos simples ou aulas iniciais.
+2. Clique em **Next**
+
+---
+
+### 4️⃣ Informar os dados do projeto
+
+Preencha os campos conforme o exemplo abaixo:
+
+- **Group Id**
+  ```
+  br.com.fuctura
+  ```
+  Representa a organização ou domínio do projeto.
+
+- **Artifact Id**
+  ```
+  projeto-maven
+  ```
+  Nome do projeto / artefato.
+
+- **Version**
+  ```
+  1.0-SNAPSHOT
+  ```
+  O sufixo `SNAPSHOT` indica que o projeto está em desenvolvimento.
+
+- **Packaging**
+  ```
+  jar
+  ```
+  Utilizado para aplicações Java comuns.
+
+- **Name** (opcional)
+  ```
+  Projeto Maven Exemplo
+  ```
+
+- **Description** (opcional)
+  ```
+  Projeto Maven para aulas de Java
+  ```
+
+Após preencher todos os campos, clique em **Finish**.
+
+---
+
+### 5️⃣ Estrutura padrão do projeto Maven
+
+Após a criação, o Eclipse irá gerar automaticamente a seguinte estrutura:
+
+```
+projeto-maven
+ ├── src/main/java
+ ├── src/main/resources
+ ├── src/test/java
+ └── pom.xml
+```
+
+**Descrição das pastas:**
+
+- `src/main/java` → Código-fonte principal da aplicação
+- `src/main/resources` → Arquivos de configuração e recursos
+- `src/test/java` → Código de testes
+- `pom.xml` → Arquivo central de configuração do Maven
+
+---
+
+## 🛠️ Configurar a versão do Java no Maven
+
+1. Abra o arquivo **pom.xml**
+2. Adicione ou ajuste as propriedades abaixo:
+
+```xml
+<properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+</properties>
+```
+
+Ajuste a versão do Java conforme o padrão adotado na aula ou no projeto.
+
+---
+
+## ▶️ Criar uma classe Java de teste
+
+1. Clique com o botão direito em:
+   ```
+   src/main/java
+   ```
+2. Selecione:
+   ```
+   New → Class
+   ```
+3. Preencha os campos:
+   - **Package**: `br.com.fuctura`
+   - **Name**: `Main`
+
+Exemplo de código:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Projeto Maven funcionando!");
+    }
+}
+```
+
+---
+
+## 📦 Atualizar dependências Maven
+
+Caso o projeto apresente erros ou dependências não resolvidas:
+
+1. Clique com o botão direito no projeto
+2. Selecione:
+   ```
+   Maven → Update Project
+   ```
+3. Clique em **OK**
+
+---
+
+## ✅ Conclusão
+
+O projeto Maven está corretamente configurado e pronto para:
+
+- Adicionar dependências no arquivo `pom.xml`
+- Trabalhar com JDBC, JPA, Spring e outras bibliotecas
+- Gerar builds utilizando o comando:
+  ```
+  mvn package
+  ```
 ---
 
 ## ❓ Problemas comuns
