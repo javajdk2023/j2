@@ -11,7 +11,7 @@
   - [🎯 Ambiente pronto!](#-ambiente-pronto)
   - [❓ Problemas comuns](#-problemas-comuns)
   - [👍 Pronto para começar!](#-pronto-para-começar)
-- [Criando um Projeto Maven no Eclipse](#criando-um-projeto-maven-no-eclipse)
+- [👍 Criando um Projeto Maven no Eclipse](#criando-um-projeto-maven-no-eclipse)
 - [📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)](#-projeto--sistema-de-gerenciamento-de-biblioteca-console--jdbc)
   - [🎯 Objetivo Geral](#-objetivo-geral)
   - [🧱 Arquitetura do Projeto](#-arquitetura-do-projeto)
