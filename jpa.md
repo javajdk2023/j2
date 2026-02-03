@@ -324,3 +324,181 @@ tx.commit();
 em.close();
 ```
 ------------------------------------------------------------------------
+
+
+# Consultas com JPQL (Java Persistence Query Language)
+
+## O que é JPQL?
+
+JPQL (Java Persistence Query Language) é a linguagem de consultas definida
+pela especificação JPA.
+
+Ela é **orientada a objetos** e opera sobre:
+
+- Entidades
+- Atributos
+- Relacionamentos
+
+⚠️ JPQL **não consulta tabelas**, consulta **entidades Java**.
+
+------------------------------------------------------------------------
+
+## JPQL x SQL
+
+| SQL | JPQL |
+|----|----|
+| Consulta tabelas | Consulta entidades |
+| Usa colunas | Usa atributos |
+| Depende do banco | Independente do banco |
+
+Exemplo:
+
+```sql
+SELECT * FROM usuarios;
+```
+
+```jpql
+SELECT u FROM Usuario u;
+```
+
+------------------------------------------------------------------------
+
+## Estrutura básica de uma consulta JPQL
+
+```java
+SELECT alias FROM Entidade alias
+```
+
+Exemplo:
+
+```java
+SELECT u FROM Usuario u
+```
+
+------------------------------------------------------------------------
+
+## Executando uma consulta JPQL
+
+```java
+List<Usuario> usuarios =
+    em.createQuery("SELECT u FROM Usuario u", Usuario.class)
+      .getResultList();
+```
+
+------------------------------------------------------------------------
+
+## Cláusula WHERE
+
+```java
+SELECT u FROM Usuario u WHERE u.nome = 'Maria'
+```
+
+### Usando parâmetros (boa prática)
+
+```java
+SELECT u FROM Usuario u WHERE u.nome = :nome
+```
+
+```java
+em.createQuery("SELECT u FROM Usuario u WHERE u.nome = :nome", Usuario.class)
+  .setParameter("nome", "Maria")
+  .getResultList();
+```
+
+------------------------------------------------------------------------
+
+## LIKE em JPQL
+
+O operador `LIKE` funciona de forma semelhante ao SQL.
+
+```java
+SELECT u FROM Usuario u WHERE u.nome LIKE 'Ma%'
+```
+
+### LIKE com parâmetro
+
+```java
+SELECT u FROM Usuario u WHERE u.nome LIKE :nome
+```
+
+```java
+.setParameter("nome", "Ma%")
+```
+
+### Padrões comuns
+
+| Objetivo | Exemplo |
+|-------|-------|
+| Começa com | `"Jo%"` |
+| Termina com | `"%silva"` |
+| Contém | `"%ana%"` |
+
+------------------------------------------------------------------------
+
+## LIKE sem diferenciar maiúsculas/minúsculas
+
+JPQL não possui `ILIKE`.
+
+Solução portátil:
+
+```java
+SELECT u FROM Usuario u
+WHERE LOWER(u.nome) LIKE LOWER(:nome)
+```
+
+------------------------------------------------------------------------
+
+## Funções agregadas
+
+JPQL suporta funções como:
+
+- COUNT
+- AVG
+- SUM
+- MIN
+- MAX
+
+Exemplo:
+
+```java
+SELECT COUNT(u) FROM Usuario u
+```
+
+Retorno: `Long`
+
+------------------------------------------------------------------------
+
+## getResultList x getSingleResult
+
+```java
+getResultList();   // Retorna lista (pode ser vazia)
+getSingleResult(); // Retorna um único resultado
+```
+
+⚠️ `getSingleResult()` pode lançar:
+- `NoResultException`
+- `NonUniqueResultException`
+
+------------------------------------------------------------------------
+
+## Erros comuns em JPQL
+
+- Usar nome da tabela em vez da entidade
+- Usar nome da coluna em vez do atributo
+- Esquecer alias
+- Esperar entidade ao usar projeções
+
+------------------------------------------------------------------------
+
+## Quando usar JPQL?
+
+- Consultas dinâmicas
+- Consultas orientadas a domínio
+- Independência de banco
+
+------------------------------------------------------------------------
+
+## Conclusão
+
+> JPQL permite consultar dados usando o modelo orientado a objetos,
+> mantendo o código limpo, portátil e alinhado ao domínio da aplicação.
