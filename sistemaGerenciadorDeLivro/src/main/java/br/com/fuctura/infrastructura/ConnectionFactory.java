@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 public class ConnectionFactory {
 
 	public Connection getConnection() {
@@ -18,4 +21,11 @@ public class ConnectionFactory {
 
 		return null;
 	}
+	
+	public EntityManagerFactory getEntityManagerFactory() {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("meuPU");
+		return emf;
+	}
+	
 }

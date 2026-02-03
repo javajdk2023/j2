@@ -1,4 +1,4 @@
-package br.com.fuctura;
+package br.com.fuctura.application;
 
 import br.com.fuctura.console.MenuPrincipal;
 

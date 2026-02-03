@@ -5,11 +5,13 @@ import java.util.List;
 
 import br.com.fuctura.dao.LivroDAO;
 import br.com.fuctura.domain.Livro;
+import br.com.fuctura.respository.LivroRepository;
+import br.com.fuctura.respository.impl.LivroRepositoryImpl;
 
 public class LivroService {
 
 	public void cadastrar(String nomeLivro) throws SQLException {
-		LivroDAO dao = new LivroDAO();
+		LivroRepository dao = new LivroRepositoryImpl();
 
 		Livro livro = new Livro();
 		livro.setTitulo(nomeLivro);

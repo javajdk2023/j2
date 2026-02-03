@@ -12,11 +12,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.7.8</version>
-		</dependency>
+	<dependency>
+		<artifactId>postgresql</artifactId>
+		<groupId>org.postgresql</groupId>
+		<version>42.7.3</version>
+	</dependency>
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline</artifactId>
@@ -28,6 +28,28 @@
 			<version>1.18.42</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>7.2.2.Final</version>
+		</dependency>
 	</dependencies>
-
+<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.42</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

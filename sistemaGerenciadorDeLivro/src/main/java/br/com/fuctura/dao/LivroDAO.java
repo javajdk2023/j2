@@ -9,8 +9,9 @@ import java.util.List;
 
 import br.com.fuctura.domain.Livro;
 import br.com.fuctura.infrastructura.ConnectionFactory;
+import br.com.fuctura.respository.LivroRepository;
 
-public class LivroDAO {
+public class LivroDAO implements LivroRepository  {
 
 	// COMANDOS DE SQL
 	public List<Livro> consultarTodos() throws SQLException {
@@ -96,6 +97,12 @@ public class LivroDAO {
 		}
 
 		return resultadoConsulta;
+	}
+
+	@Override
+	public List<Livro> buscarTodos() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
