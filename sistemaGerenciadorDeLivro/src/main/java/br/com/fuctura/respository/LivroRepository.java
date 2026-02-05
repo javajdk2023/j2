@@ -11,4 +11,7 @@ public interface LivroRepository {
 	void cadastrar(Livro livro) throws SQLException;
 	
 	List<Livro> buscarTodos() throws SQLException;
+	
+	List<Livro> consultarPorTitulo(Livro livro) throws SQLException;
+
 }

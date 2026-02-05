@@ -10,18 +10,19 @@ import br.com.fuctura.respository.impl.LivroRepositoryImpl;
 
 public class LivroService {
 
-	public void cadastrar(String nomeLivro) throws SQLException {
+	public void cadastrar(String nomeLivro, int qtdPagina) throws SQLException {
 		LivroRepository dao = new LivroRepositoryImpl();
 
 		Livro livro = new Livro();
 		livro.setTitulo(nomeLivro);
+		livro.setQtdPagina(qtdPagina);
 
 		dao.cadastrar(livro);
 	}
 	
 	public List<Livro> consultarTodos() throws SQLException{
-		LivroDAO dao = new LivroDAO();
-		return dao.consultarTodos();
+		LivroRepository dao = new LivroRepositoryImpl();
+		return dao.buscarTodos();
 	}
 
 	public List<Livro> consultarPorTitulo(String titulo) throws SQLException {

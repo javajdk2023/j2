@@ -15,4 +15,5 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String titulo;
+	private int qtdPagina;
 }

@@ -91,9 +91,11 @@ public class MenuPrincipal {
 	private void cadastrarLivro() throws SQLException {
 		String nomeLivro = reader.readLine("Digite o nome do Livro: ");
 
+		String qtdPagina = reader.readLine("Digite a qtd Página: ");
+		
 		LivroService service = new LivroService();
 
-		service.cadastrar(nomeLivro);
+		service.cadastrar(nomeLivro, Integer.valueOf(qtdPagina));
 	}
 
 	private void listarLivros() throws SQLException {

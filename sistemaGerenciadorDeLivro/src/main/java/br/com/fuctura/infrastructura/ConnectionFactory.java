@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class ConnectionFactory {
+	
+	private static EntityManagerFactory entityManagerFactory; 
 
 	public Connection getConnection() {
 		Properties props = new DatabaseConfig().loadProperties();
@@ -22,10 +24,21 @@ public class ConnectionFactory {
 		return null;
 	}
 	
-	public EntityManagerFactory getEntityManagerFactory() {
-		EntityManagerFactory emf = Persistence
+	public static EntityManagerFactory getEntityManagerFactory() {
+		if(entityManagerFactory == null 
+				|| !entityManagerFactory.isOpen()) 
+		{
+			//abrir xml
+			//leitura das credencias de banco
+			//leitura estrategia
+			// se create-drop => apaga tudo e cria do zero
+			// abre a conexao
+			System.out.println("Abrindo o PU");
+			entityManagerFactory = Persistence
 				.createEntityManagerFactory("meuPU");
-		return emf;
+		}
+		
+		return entityManagerFactory;
 	}
 	
 }

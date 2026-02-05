@@ -25,8 +25,41 @@ public class LivroRepositoryImpl implements LivroRepository {
 
 	@Override
 	public List<Livro> buscarTodos() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		ConnectionFactory connectionFactory = new ConnectionFactory();
+		
+		EntityManagerFactory entityManagerFactory = connectionFactory.getEntityManagerFactory();
+		
+		EntityManager em = entityManagerFactory.createEntityManager();
+		
+		String comandoJPQL = "select abc from Livro abc";
+		
+		List<Livro> resultadoConsulta = em
+				.createQuery(comandoJPQL, Livro.class)
+				.getResultList();
+		
+		em.close();
+		
+		//SELECT * FROM tb_livro
+		return resultadoConsulta;
+	}
+
+	@Override
+	public List<Livro> consultarPorTitulo(Livro livro) throws SQLException {
+		EntityManagerFactory emf = ConnectionFactory
+				.getEntityManagerFactory();
+		
+		EntityManager em = emf.createEntityManager();
+		
+		//select * from livro where titulo like ?
+		
+		String comandoJPQL = "SELECT l FROM Livro l where titulo like :fuctura";
+		
+		List<Livro> resultadoConsulta = em
+				.createQuery(comandoJPQL, Livro.class)
+				.setParameter("fuctura", livro.getTitulo() + "%")
+				.getResultList();
+		
+		return resultadoConsulta;
 	}
 
 }
