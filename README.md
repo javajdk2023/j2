@@ -363,9 +363,143 @@ O projeto Maven está corretamente configurado e pronto para:
 
 ## 👍 Pronto para começar!
 
-Qualquer dúvida, traga para aula 😊
+# ☕ Hello World JDBC — Primeira Conexão com o PostgreSQL
 
+Antes de criarmos DAOs, Services e toda a arquitetura do sistema, vamos fazer o nosso primeiro teste de acesso ao banco de dados.
 
+O objetivo é simples: obter uma conexão utilizando o método `getConnection()` da classe `DriverManager`.
+
+Esse exemplo representa o equivalente ao **"Hello World" do JDBC**.
+
+---
+
+## 📦 Pré-requisitos
+
+Certifique-se de que:
+
+- O PostgreSQL está em execução
+- A dependência JDBC do PostgreSQL foi adicionada ao `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.7.3</version>
+</dependency>
+```
+
+---
+
+## 🚀 Exemplo Completo
+
+Crie uma classe chamada `Main`:
+
+```java
+package br.com.fuctura;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String usuario = "postgres";
+        String senha = "sua_senha";
+
+        try (Connection connection =
+                DriverManager.getConnection(url, usuario, senha)) {
+
+            System.out.println("Conexão realizada com sucesso!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao conectar com o banco.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+---
+
+## 🔍 Entendendo a URL JDBC
+
+A URL utilizada para conexão segue o formato:
+
+```text
+jdbc:postgresql://host:porta/banco
+```
+
+Exemplo:
+
+```text
+jdbc:postgresql://localhost:5432/postgres
+```
+
+Onde:
+
+| Parte | Descrição |
+|---------|---------|
+| `jdbc` | Protocolo JDBC |
+| `postgresql` | Driver utilizado |
+| `localhost` | Servidor do banco |
+| `5432` | Porta padrão do PostgreSQL |
+| `postgres` | Nome do banco |
+
+---
+
+## ⚙️ O que acontece quando chamamos `getConnection()`?
+
+Ao executar:
+
+```java
+DriverManager.getConnection(url, usuario, senha);
+```
+
+o JDBC realiza os seguintes passos:
+
+1. Localiza o driver PostgreSQL disponível no projeto.
+2. Solicita uma conexão ao banco de dados.
+3. Autentica o usuário informado.
+4. Cria uma sessão com o banco.
+5. Retorna um objeto do tipo `Connection`.
+
+Esse objeto será utilizado futuramente para executar comandos SQL.
+
+---
+
+## ✅ Resultado Esperado
+
+Se tudo estiver configurado corretamente:
+
+```text
+Conexão realizada com sucesso!
+```
+
+---
+
+## ❌ Possíveis Erros
+
+Caso a conexão falhe, verifique:
+
+- PostgreSQL está em execução
+- Usuário e senha estão corretos
+- Banco de dados existe
+- Porta está correta
+- Dependência JDBC foi adicionada ao Maven
+
+---
+
+## 🎯 Conclusão
+
+Neste exemplo realizamos a operação mais básica do JDBC:
+
+- Utilizamos o `DriverManager`
+- Obtivemos uma `Connection`
+- Estabelecemos comunicação com o PostgreSQL
+
+---
 
 # 📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)
 
