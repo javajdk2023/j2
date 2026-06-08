@@ -21,6 +21,7 @@
   - [🧱 Diagrama ER](#-diagrama-er)
   - [🧱 Arquitetura do Projeto](#-arquitetura-do-projeto)
   - [🗺 Diagrama da Estrutura do Projeto](#-diagrama-da-estrutura-do-projeto)
+  - [🖥 Fluxo de Navegação do Sistema](#-fluxo-de-navegação-do-sistema)
   - [🎯 Exemplos de JOIN](#-exemplos-de-join)
 - [🧩 API JDBC — Principais Interfaces e Classes](#-api-jdbc--principais-interfaces-e-classes)
 
@@ -837,6 +838,374 @@ Professor "1" --> "*" Disciplina : ministra
 
 Aluno "1" --> "*" Matricula : realiza
 Disciplina "1" --> "*" Matricula : possui
+```
+---
+
+## 🖥 Fluxo de Navegação do Sistema
+
+O sistema será executado através de menus em modo texto utilizando JLine.
+
+### Menu Principal
+
+```text
+=================================
+      SISTEMA ACADÊMICO
+=================================
+
+1 - Alunos
+2 - Professores
+3 - Disciplinas
+4 - Matrículas
+0 - Sair
+
+Escolha:
+```
+
+---
+
+## 👨‍🎓 Módulo de Alunos
+
+### Menu
+
+```text
+=================================
+          ALUNOS
+=================================
+
+1 - Cadastrar
+2 - Listar
+3 - Buscar
+4 - Excluir
+0 - Voltar
+
+Escolha:
+```
+
+### Fluxo: Cadastrar Aluno
+
+```text
+=================================
+      CADASTRAR ALUNO
+=================================
+
+Matrícula: 20250001
+Nome: João Silva
+Idade: 20
+Celular: (81)99999-9999
+
+Aluno cadastrado com sucesso!
+```
+
+### Fluxo: Listar Alunos
+
+```text
+=================================
+        LISTA DE ALUNOS
+=================================
+
+20250001 - João Silva
+20250002 - Maria Oliveira
+20250003 - Pedro Santos
+
+Pressione ENTER para continuar...
+```
+
+### Fluxo: Buscar Aluno
+
+```text
+=================================
+        BUSCAR ALUNO
+=================================
+
+Matrícula: 20250001
+
+Dados encontrados:
+
+Matrícula: 20250001
+Nome: João Silva
+Idade: 20
+Celular: (81)99999-9999
+```
+
+### Fluxo: Excluir Aluno
+
+```text
+=================================
+       EXCLUIR ALUNO
+=================================
+
+Matrícula: 20250001
+
+Aluno removido com sucesso!
+```
+
+---
+
+## 👨‍🏫 Módulo de Professores
+
+### Menu
+
+```text
+=================================
+        PROFESSORES
+=================================
+
+1 - Cadastrar
+2 - Listar
+3 - Buscar
+4 - Excluir
+0 - Voltar
+
+Escolha:
+```
+
+### Fluxo: Cadastrar Professor
+
+```text
+=================================
+    CADASTRAR PROFESSOR
+=================================
+
+Matrícula: P001
+Nome: Maria Souza
+Telefone: (81)98888-8888
+
+Professor cadastrado com sucesso!
+```
+
+### Fluxo: Listar Professores
+
+```text
+=================================
+     LISTA DE PROFESSORES
+=================================
+
+P001 - Maria Souza
+P002 - Carlos Lima
+P003 - Fernanda Melo
+
+Pressione ENTER para continuar...
+```
+
+### Fluxo: Buscar Professor
+
+```text
+=================================
+      BUSCAR PROFESSOR
+=================================
+
+Matrícula: P001
+
+Dados encontrados:
+
+Matrícula: P001
+Nome: Maria Souza
+Telefone: (81)98888-8888
+```
+
+### Fluxo: Excluir Professor
+
+```text
+=================================
+      EXCLUIR PROFESSOR
+=================================
+
+Matrícula: P001
+
+Professor removido com sucesso!
+```
+
+---
+
+## 📚 Módulo de Disciplinas
+
+### Menu
+
+```text
+=================================
+        DISCIPLINAS
+=================================
+
+1 - Cadastrar
+2 - Listar
+3 - Buscar
+4 - Excluir
+0 - Voltar
+
+Escolha:
+```
+
+### Fluxo: Cadastrar Disciplina
+
+```text
+=================================
+    CADASTRAR DISCIPLINA
+=================================
+
+Código: BD001
+Nome: Banco de Dados
+Carga Horária: 60h
+
+Professor responsável:
+
+P001 - Maria Souza
+
+Disciplina cadastrada com sucesso!
+```
+
+### Fluxo: Listar Disciplinas
+
+```text
+=================================
+      LISTA DE DISCIPLINAS
+=================================
+
+BD001 - Banco de Dados
+POO001 - Programação Orientada a Objetos
+WEB001 - Desenvolvimento Web
+
+Pressione ENTER para continuar...
+```
+
+### Fluxo: Buscar Disciplina
+
+```text
+=================================
+      BUSCAR DISCIPLINA
+=================================
+
+Código: BD001
+
+Dados encontrados:
+
+Código: BD001
+Nome: Banco de Dados
+Carga Horária: 60h
+Professor: Maria Souza
+```
+
+### Fluxo: Excluir Disciplina
+
+```text
+=================================
+     EXCLUIR DISCIPLINA
+=================================
+
+Código: BD001
+
+Disciplina removida com sucesso!
+```
+
+---
+
+## 📝 Módulo de Matrículas
+
+### Menu
+
+```text
+=================================
+         MATRÍCULAS
+=================================
+
+1 - Matricular aluno
+2 - Cancelar matrícula
+3 - Consultar disciplinas de um aluno
+4 - Consultar alunos de uma disciplina
+5 - Relatório completo
+0 - Voltar
+
+Escolha:
+```
+
+### Fluxo: Matricular Aluno
+
+```text
+=================================
+      MATRICULAR ALUNO
+=================================
+
+Matrícula do aluno: 20250001
+
+Disciplinas disponíveis:
+
+BD001 - Banco de Dados
+POO001 - Programação Orientada a Objetos
+WEB001 - Desenvolvimento Web
+
+Código da disciplina: BD001
+
+Matrícula realizada com sucesso!
+```
+
+### Fluxo: Cancelar Matrícula
+
+```text
+=================================
+      CANCELAR MATRÍCULA
+=================================
+
+Matrícula do aluno: 20250001
+
+Disciplinas matriculadas:
+
+BD001 - Banco de Dados
+POO001 - Programação Orientada a Objetos
+
+Código da disciplina: BD001
+
+Matrícula cancelada com sucesso!
+```
+
+### Fluxo: Consultar Disciplinas de um Aluno
+
+```text
+=================================
+    DISCIPLINAS DO ALUNO
+=================================
+
+Matrícula do aluno: 20250001
+
+Aluno: João Silva
+
+Disciplinas:
+
+BD001 - Banco de Dados
+POO001 - Programação Orientada a Objetos
+WEB001 - Desenvolvimento Web
+```
+
+### Fluxo: Consultar Alunos de uma Disciplina
+
+```text
+=================================
+   ALUNOS DA DISCIPLINA
+=================================
+
+Código da disciplina: BD001
+
+Disciplina: Banco de Dados
+Professor: Maria Souza
+
+Alunos matriculados:
+
+20250001 - João Silva
+20250002 - Pedro Santos
+20250003 - Ana Costa
+```
+
+### Fluxo: Relatório Completo
+
+```text
+=================================
+      RELATÓRIO COMPLETO
+=================================
+
+Aluno                Disciplina             Professor
+---------------------------------------------------------
+João Silva           Banco de Dados         Maria Souza
+João Silva           Programação OO         Carlos Lima
+Pedro Santos         Banco de Dados         Maria Souza
+Ana Costa            Desenvolvimento Web    Fernanda Melo
 ```
 
 ---
