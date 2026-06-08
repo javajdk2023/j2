@@ -533,39 +533,6 @@ Criar uma aplicação console em Java que permita:
 
 ---
 
-## 📈 Evolução do Projeto
-
-O projeto será construído de forma incremental.
-
-### Aula 1
-
-Implementação de:
-
-- Conexão JDBC
-- Cadastro de Alunos
-- Exclusão de Alunos
-
-Todo o código foi desenvolvido em uma única classe para facilitar o aprendizado inicial.
-
-### Aula 2
-
-Refatoração para arquitetura em camadas:
-
-- application
-- console
-- domain
-- service
-- dao
-- infrastructure
-
-Além disso serão introduzidos:
-
-- Chaves estrangeiras
-- Relacionamentos
-- JOINs
-
----
-
 ## 🧩 Estrutura Conceitual
 
 O sistema contempla as seguintes entidades:
