@@ -13,18 +13,17 @@
   - [👍 Pronto para começar!](#-pronto-para-começar)
 - [👍 Criando um Projeto Maven no Eclipse](#criando-um-projeto-maven-no-eclipse)
 - [☕ Hello World JDBC — Primeira Conexão com o PostgreSQL](#-hello-world-jdbc--primeira-conexão-com-o-postgresql)
-- [📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)](#-projeto--sistema-de-gerenciamento-de-biblioteca-console--jdbc)
+- [🎓 Projeto — Sistema de Gerenciamento Acadêmico (Console + JDBC)](#-projeto--sistema-de-gerenciamento-acadêmico-console--jdbc)
   - [🎯 Objetivo Geral](#-objetivo-geral)
+  - [📈 Evolução do Projeto](#-evolução-do-projeto)
   - [🧩 Estrutura Conceitual](#-estrutura-conceitual)
+  - [🗄 Estrutura do Banco de Dados](#-estrutura-do-banco-de-dados)
+  - [🔄 Evolução do Modelo](#-evolução-do-modelo)
+  - [🧱 Diagrama ER](#-diagrama-er)
   - [🧱 Arquitetura do Projeto](#-arquitetura-do-projeto)
-    - [🖥 Camada de Aplicação (app)](#-camada-de-aplicação-app)
-    - [🧠 Camada de Serviços (service)](#-camada-de-serviços-service)
-    - [💾 Camada de Persistência (dao)](#-camada-de-persistência-dao)
-    - [🗄 Camada de Infra (db)](#-camada-de-infra-db)
   - [🗺 Diagrama da Estrutura do Projeto](#-diagrama-da-estrutura-do-projeto)
-  - [📦 Dependências do Projeto](#-dependências-do-projeto)
+  - [🎯 Exemplos de JOIN](#-exemplos-de-join)
 - [🧩 API JDBC — Principais Interfaces e Classes](#-api-jdbc--principais-interfaces-e-classes)
-
 
 # 🛠️ Setup do Ambiente — Aulas de Banco de Dados com Java
 
@@ -503,10 +502,21 @@ Neste exemplo realizamos a operação mais básica do JDBC:
 
 ---
 
-# 📚 Projeto — Sistema de Gerenciamento de Biblioteca (Console + JDBC)
+# 🎓 Projeto — Sistema de Gerenciamento Acadêmico (Console + JDBC)
 
-Este projeto será desenvolvido ao longo das aulas para simular um sistema de gerenciamento de biblioteca.
-Nosso objetivo é trabalhar conceitos de **arquitetura em camadas**, **JDBC**, **DAO**, **boas práticas de separação de responsabilidades** e acesso a banco de dados.
+Este projeto será desenvolvido ao longo das aulas para simular um sistema acadêmico.
+
+Nosso objetivo é trabalhar conceitos de:
+
+- JDBC
+- PostgreSQL
+- Arquitetura em Camadas
+- DAO
+- Service
+- Relacionamentos
+- Chaves Estrangeiras
+- JOINs
+- Boas práticas de organização de código
 
 ---
 
@@ -514,296 +524,387 @@ Nosso objetivo é trabalhar conceitos de **arquitetura em camadas**, **JDBC**, *
 
 Criar uma aplicação console em Java que permita:
 
-- Gerenciar livros
-- Gerenciar usuários
-- Controlar empréstimos
-- Persistir tudo em um banco PostgreSQL via JDBC
+- Gerenciar alunos
+- Gerenciar professores
+- Gerenciar disciplinas
+- Realizar matrículas de alunos em disciplinas
+- Consultar informações utilizando JOINs
+- Persistir dados em PostgreSQL através do JDBC
+
+---
+
+## 📈 Evolução do Projeto
+
+O projeto será construído de forma incremental.
+
+### Aula 1
+
+Implementação de:
+
+- Conexão JDBC
+- Cadastro de Alunos
+- Exclusão de Alunos
+
+Todo o código foi desenvolvido em uma única classe para facilitar o aprendizado inicial.
+
+### Aula 2
+
+Refatoração para arquitetura em camadas:
+
+- application
+- console
+- domain
+- service
+- dao
+- infrastructure
+
+Além disso serão introduzidos:
+
+- Chaves estrangeiras
+- Relacionamentos
+- JOINs
 
 ---
 
 ## 🧩 Estrutura Conceitual
 
-O projeto foi planejado a partir de dois pilares principais:
+O sistema contempla as seguintes entidades:
 
-### 🔷 1️⃣ Modelo Conceitual – ER (Entidade-Relacionamento)
+### 👨‍🎓 Aluno
 
-O sistema contempla as seguintes entidades principais:
+Representa os estudantes da instituição.
 
-- **Livro** – Representa a obra em si (título, descrição, associação com autor e categoria).
-- **Autor** – Armazena informações sobre os autores cadastrados.
-- **Categoria** – Permite organização temática dos livros.
-- **Exemplar** – Representa cada cópia física disponível de um livro.
-- **Usuário** – Representa a pessoa que realiza empréstimos.
-- **Empréstimo** – Controla o processo de retirada e devolução dos exemplares.
+### 👨‍🏫 Professor
 
-Além disso, o modelo prevê funcionalidades como:
-- Associação de livros a autores  
-- Classificação dos livros em categorias  
-- Controle por exemplares, permitindo múltiplas cópias do mesmo livro  
-- Relacionamento entre usuários e empréstimos  
+Representa os professores responsáveis pelas disciplinas.
+
+### 📚 Disciplina
+
+Representa os componentes curriculares ofertados.
+
+### 📝 Matrícula
+
+Representa a inscrição de um aluno em uma disciplina.
 
 ---
 
-### 🧱 Diagrama ER
+## 🗄 Estrutura do Banco de Dados
+
+### Tabela Aluno
+
+```sql
+CREATE TABLE aluno (
+    matricula VARCHAR(255) PRIMARY KEY,
+    nome VARCHAR(100),
+    idade INT,
+    celular VARCHAR(15)
+);
+```
+
+### Tabela Professor
+
+```sql
+CREATE TABLE professor (
+    nome VARCHAR(100),
+    telefone VARCHAR(15),
+    matricula VARCHAR(32) PRIMARY KEY
+);
+```
+
+### Tabela Disciplina
+
+```sql
+CREATE TABLE disciplina (
+    nome VARCHAR(100),
+    carga_horaria VARCHAR(15),
+    codigo VARCHAR(32) PRIMARY KEY
+);
+```
+
+---
+
+## 🔄 Evolução do Modelo
+
+### Relacionamento Professor → Disciplina
+
+Uma disciplina possui um professor responsável.
+
+Adicionar coluna:
+
+```sql
+ALTER TABLE disciplina
+ADD COLUMN professor_matricula VARCHAR(32);
+```
+
+Adicionar chave estrangeira:
+
+```sql
+ALTER TABLE disciplina
+ADD CONSTRAINT fk_disciplina_professor
+FOREIGN KEY (professor_matricula)
+REFERENCES professor(matricula);
+```
+
+---
+
+### Relacionamento Aluno ↔ Disciplina
+
+Um aluno pode cursar várias disciplinas.
+
+Uma disciplina pode possuir vários alunos.
+
+Para representar esse relacionamento utilizaremos a entidade **Matrícula**.
+
+```sql
+CREATE TABLE matricula (
+    id SERIAL PRIMARY KEY,
+    data_matricula DATE,
+    aluno_matricula VARCHAR(255),
+    disciplina_codigo VARCHAR(32)
+);
+```
+
+Adicionar chave estrangeira para aluno:
+
+```sql
+ALTER TABLE matricula
+ADD CONSTRAINT fk_matricula_aluno
+FOREIGN KEY (aluno_matricula)
+REFERENCES aluno(matricula);
+```
+
+Adicionar chave estrangeira para disciplina:
+
+```sql
+ALTER TABLE matricula
+ADD CONSTRAINT fk_matricula_disciplina
+FOREIGN KEY (disciplina_codigo)
+REFERENCES disciplina(codigo);
+```
+
+---
+
+## 🧱 Diagrama ER
 
 ```mermaid
 erDiagram
-    USUARIO {
-        LONG id
+
+    ALUNO {
+        VARCHAR matricula PK
         STRING nome
+        INTEGER idade
+        STRING celular
     }
 
-    LIVRO {
-        LONG id
-        STRING titulo
-    }
-
-    EXEMPLAR {
-        LONG id
-        STRING codigoTombo
-        BOOLEAN disponivel
-    }
-
-    AUTOR {
-        LONG id
+    PROFESSOR {
+        VARCHAR matricula PK
         STRING nome
+        STRING telefone
     }
 
-    CATEGORIA {
-        LONG id
+    DISCIPLINA {
+        VARCHAR codigo PK
         STRING nome
+        STRING carga_horaria
+        VARCHAR professor_matricula FK
     }
 
-    EMPRESTIMO {
-        LONG id
-        DATE dataEmprestimo
-        DATE dataDevolucao
+    MATRICULA {
+        LONG id PK
+        DATE data_matricula
+        VARCHAR aluno_matricula FK
+        VARCHAR disciplina_codigo FK
     }
 
-    LIVRO_AUTOR {
-        LONG id
-    }
+    PROFESSOR ||--o{ DISCIPLINA : ministra
 
-    LIVRO_CATEGORIA {
-        LONG id
-    }
-
-    %% ================= RELACIONAMENTOS =================
-
-    %% Usuário realiza empréstimos
-    USUARIO ||--o{ EMPRESTIMO : realiza
-
-    %% Empréstimo feito sobre EXEMPLAR (não mais diretamente no livro)
-    EXEMPLAR ||--o{ EMPRESTIMO : emprestado
-
-    %% Livro possui vários exemplares
-    LIVRO ||--o{ EXEMPLAR : possui
-
-    %% Livro x Autor (N:N)
-    LIVRO ||--o{ LIVRO_AUTOR : contem
-    AUTOR ||--o{ LIVRO_AUTOR : escreve
-
-    %% Livro x Categoria (N:N)
-    LIVRO ||--o{ LIVRO_CATEGORIA : classifica
-    CATEGORIA ||--o{ LIVRO_CATEGORIA : pertence
+    ALUNO ||--o{ MATRICULA : realiza
+    DISCIPLINA ||--o{ MATRICULA : possui
 ```
+
+---
 
 ## 🧱 Arquitetura do Projeto
 
-Adotaremos uma arquitetura organizada em camadas:
+### 🖥 Camada de Aplicação (`application`)
 
-### 🖥 Camada de Aplicação (`app`)
-Responsável por iniciar o sistema e controlar o fluxo via menu:
-- `Application` → contém o `main`
-- `ConsoleMenu` → interação com o usuário via terminal
+Responsável pelo ponto de entrada da aplicação.
+
+- `Application`
+
+---
+
+### ⌨️ Camada Console (`console`)
+
+Responsável pela interação com o usuário.
+
+- `MenuPrincipal`
+
+---
+
+### 📦 Camada de Domínio (`domain`)
+
+Representa as entidades do negócio.
+
+- `Aluno`
+- `Professor`
+- `Disciplina`
+- `Matricula`
 
 ---
 
 ### 🧠 Camada de Serviços (`service`)
-Contém as regras de negócio do sistema:
 
-- `LivroService`
-- `UsuarioService`
-- `EmprestimoService`
-- `AutorService`
-- `CategoriaService`
-- `ExemplarService`
+Contém as regras de negócio.
 
-Nenhum serviço acessa banco diretamente — isso é função do DAO.
+- `AlunoService`
+- `ProfessorService`
+- `DisciplinaService`
+- `MatriculaService`
 
 ---
 
-### 💾 Camada de Persistência (`dao`)
-Responsável por conversar com o banco de dados usando JDBC:
+### 💾 Camada DAO (`dao`)
 
-- `LivroDAO`
-- `UsuarioDAO`
-- `EmprestimoDAO`
-- `AutorDAO`
-- `CategoriaDAO`
-- `ExemplarDAO`
+Responsável pelo acesso ao banco de dados.
 
-Cada DAO contém operações como salvar, listar, buscar etc.
+- `AlunoDAO`
+- `ProfessorDAO`
+- `DisciplinaDAO`
+- `MatriculaDAO`
 
 ---
 
-### 🗄 Camada de Infra (`db`)
-Centraliza a criação da conexão com o banco:
+### 🗄 Camada Infrastructure (`infrastructure`)
 
-- `ConnectionFactory`
+Responsável por configurações e conexões JDBC.
+
 - `DatabaseConfig`
+- `ConnectionFactory`
 
 ---
 
 ## 🗺 Diagrama da Estrutura do Projeto
 
-O diagrama abaixo representa visualmente a organização do sistema:
-
 ```mermaid
 classDiagram
 
-%% =======================
-%% APPLICATION
-%% =======================
 namespace application {
     class Application
 }
 
-%% =======================
-%% CONSOLE
-%% =======================
 namespace console {
     class ConsoleUI
     class MenuPrincipal
 }
 
-%% =======================
-%% DOMAIN
-%% =======================
 namespace domain {
-    class Livro {
-        - Long id
-        - String titulo
-    }
 
-    class Usuario {
-        - Long id
+    class Aluno {
+        - String matricula
         - String nome
+        - Integer idade
+        - String celular
     }
 
-    class Emprestimo {
-        - Long id
-        - LocalDate dataEmprestimo
-        - LocalDate dataDevolucao
-    }
-
-    class Exemplar {
-        - Long id
-        - String codigoTombo
-        - boolean disponivel
-    }
-
-    class Autor {
-        - Long id
+    class Professor {
+        - String matricula
         - String nome
+        - String telefone
     }
 
-    class Categoria {
-        - Long id
+    class Disciplina {
+        - String codigo
         - String nome
+        - String cargaHoraria
+        - String professorMatricula
+    }
+
+    class Matricula {
+        - Long id
+        - LocalDate dataMatricula
+        - String alunoMatricula
+        - String disciplinaCodigo
     }
 }
 
-%% =======================
-%% SERVICE
-%% =======================
 namespace service {
-    class LivroService
-    class UsuarioService
-    class EmprestimoService
-    class AutorService
-    class CategoriaService
-    class ExemplarService
+    class AlunoService
+    class ProfessorService
+    class DisciplinaService
+    class MatriculaService
 }
 
-%% =======================
-%% DAO
-%% =======================
 namespace dao {
-    class LivroDAO
-    class UsuarioDAO
-    class EmprestimoDAO
-    class AutorDAO
-    class CategoriaDAO
-    class ExemplarDAO
+    class AlunoDAO
+    class ProfessorDAO
+    class DisciplinaDAO
+    class MatriculaDAO
 }
 
-%% =======================
-%% INFRASTRUCTURE / DB
-%% =======================
 namespace infrastructure {
     class DatabaseConfig
     class ConnectionFactory
 }
 
-%% =======================
-%% RELACIONAMENTOS DE CAMADAS
-%% =======================
 Application --> ConsoleUI
 ConsoleUI --> MenuPrincipal
 
-MenuPrincipal --> LivroService
-MenuPrincipal --> UsuarioService
-MenuPrincipal --> EmprestimoService
-MenuPrincipal --> AutorService
-MenuPrincipal --> CategoriaService
-MenuPrincipal --> ExemplarService
+MenuPrincipal --> AlunoService
+MenuPrincipal --> ProfessorService
+MenuPrincipal --> DisciplinaService
+MenuPrincipal --> MatriculaService
 
-LivroService --> LivroDAO
-UsuarioService --> UsuarioDAO
-EmprestimoService --> EmprestimoDAO
-AutorService --> AutorDAO
-CategoriaService --> CategoriaDAO
-ExemplarService --> ExemplarDAO
+AlunoService --> AlunoDAO
+ProfessorService --> ProfessorDAO
+DisciplinaService --> DisciplinaDAO
+MatriculaService --> MatriculaDAO
 
-LivroDAO --> Livro
-UsuarioDAO --> Usuario
-EmprestimoDAO --> Emprestimo
-AutorDAO --> Autor
-CategoriaDAO --> Categoria
-ExemplarDAO --> Exemplar
-
-LivroDAO --> ConnectionFactory
-UsuarioDAO --> ConnectionFactory
-EmprestimoDAO --> ConnectionFactory
-AutorDAO --> ConnectionFactory
-CategoriaDAO --> ConnectionFactory
-ExemplarDAO --> ConnectionFactory
+AlunoDAO --> ConnectionFactory
+ProfessorDAO --> ConnectionFactory
+DisciplinaDAO --> ConnectionFactory
+MatriculaDAO --> ConnectionFactory
 
 ConnectionFactory --> DatabaseConfig
 
-%% =======================
-%% RELACIONAMENTOS DE DOMÍNIO
-%% =======================
-Livro "1" --> "many" Exemplar : possui
-Livro "many" --> "many" Autor : escrito por
-Livro "many" --> "many" Categoria : classificado em
+Professor "1" --> "*" Disciplina : ministra
 
-Usuario "1" --> "many" Emprestimo : realiza
-Exemplar "1" --> "many" Emprestimo : emprestado
+Aluno "1" --> "*" Matricula : realiza
+Disciplina "1" --> "*" Matricula : possui
 ```
 
 ---
-- domain = modelo do mundo real
 
-- service = regras de negócio
+## 🎯 Exemplos de JOIN
 
-- dao = persistência / JDBC
+### Disciplinas e seus Professores
 
-- infrastructure = detalhes técnicos (conexão, config)
+```sql
+SELECT
+    d.codigo,
+    d.nome AS disciplina,
+    p.nome AS professor
+FROM disciplina d
+INNER JOIN professor p
+    ON p.matricula = d.professor_matricula;
+```
 
-- console = interface com usuário
+### Alunos, Disciplinas e Professores
 
+```sql
+SELECT
+    a.nome AS aluno,
+    d.nome AS disciplina,
+    p.nome AS professor
+FROM matricula m
+INNER JOIN aluno a
+    ON a.matricula = m.aluno_matricula
+INNER JOIN disciplina d
+    ON d.codigo = m.disciplina_codigo
+INNER JOIN professor p
+    ON p.matricula = d.professor_matricula;
+```
+---
 ## 📦 Dependências do Projeto
 
 O projeto utilizará **Maven** para gerenciamento de dependências.  
