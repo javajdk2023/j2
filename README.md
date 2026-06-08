@@ -15,7 +15,6 @@
 - [☕ Hello World JDBC — Primeira Conexão com o PostgreSQL](#-hello-world-jdbc--primeira-conexão-com-o-postgresql)
 - [🎓 Projeto — Sistema de Gerenciamento Acadêmico (Console + JDBC)](#-projeto--sistema-de-gerenciamento-acadêmico-console--jdbc)
   - [🎯 Objetivo Geral](#-objetivo-geral)
-  - [📈 Evolução do Projeto](#-evolução-do-projeto)
   - [🧩 Estrutura Conceitual](#-estrutura-conceitual)
   - [🗄 Estrutura do Banco de Dados](#-estrutura-do-banco-de-dados)
   - [🔄 Evolução do Modelo](#-evolução-do-modelo)
