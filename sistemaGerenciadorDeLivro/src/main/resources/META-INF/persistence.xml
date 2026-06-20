@@ -6,7 +6,8 @@
 
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <class>br.com.fuctura.domain.Livro</class>
+        <class>br.com.fuctura.domain.Autor</class>
 		
 		<properties>
 			<property name="jakarta.persistence.jdbc.url"

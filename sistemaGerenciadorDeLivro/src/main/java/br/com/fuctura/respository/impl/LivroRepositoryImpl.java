@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import br.com.fuctura.domain.Livro;
+import br.com.fuctura.dto.LivroDTO;
 import br.com.fuctura.infrastructura.ConnectionFactory;
 import br.com.fuctura.respository.LivroRepository;
 import jakarta.persistence.EntityManager;
@@ -62,4 +63,23 @@ public class LivroRepositoryImpl implements LivroRepository {
 		return resultadoConsulta;
 	}
 
+	
+	public List<LivroDTO> buscarQtdLivro() throws SQLException {
+		EntityManagerFactory entityManagerFactory = ConnectionFactory.getEntityManagerFactory();
+		
+		EntityManager em = entityManagerFactory.createEntityManager();
+		
+		String comandoJPQL = "select new br.com.fuctura.dto.LivroDTO(count(qtdpagina), titulo) \n"
+				+ "from Livro\n"
+				+ "group by titulo\n";
+		
+		List<LivroDTO> resultadoConsulta = em
+				.createQuery(comandoJPQL, LivroDTO.class)
+				.getResultList();
+		
+		em.close();
+		
+		return resultadoConsulta;
+	}
+	
 }

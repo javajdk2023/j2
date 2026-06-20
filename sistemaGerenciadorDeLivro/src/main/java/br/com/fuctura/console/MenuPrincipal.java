@@ -93,9 +93,11 @@ public class MenuPrincipal {
 
 		String qtdPagina = reader.readLine("Digite a qtd Página: ");
 		
+		String nomeAutor = reader.readLine("Digite o nome do Autor");
+		
 		LivroService service = new LivroService();
 
-		service.cadastrar(nomeLivro, Integer.valueOf(qtdPagina));
+		service.cadastrar(nomeLivro, nomeAutor, qtdPagina);
 	}
 
 	private void listarLivros() throws SQLException {
@@ -106,6 +108,7 @@ public class MenuPrincipal {
 		for (Livro l : livros) {
 			System.out.println("ID: " + l.getId());
 			System.out.println("Titulo: " + l.getTitulo());
+			System.out.println("Nome Autor: "+ l.getAutor().getNome());
 		}
 	}
 
